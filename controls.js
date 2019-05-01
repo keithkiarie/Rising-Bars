@@ -6,12 +6,18 @@ var ball_swerve = 0.05; // speed of the horizontal movement of ball
 
 var period_per_level = 10000; // level increases after this time interval
 
-var bar_width = 70;
-var bar_height = 10;
+var bar_width = window.innerWidth / 10;
+var bar_height = window.innerHeight / 50;
 var bars_initial_y = gamecanvas.height + 10; //the vertical position where bars start from
 var bars_number = 6; // the number of bars in a game session
 
-var ball_radius = 5; // radius of the ball
+// radius of the ball
+if (window.innerHeight > window.innerWidth) {
+    var ball_radius = window.innerHeight / 150;
+} else {
+    var ball_radius = window.innerWidth / 150;
+}
+
 var ball_initial_x = gamecanvas.width / 2;
 var ball_initial_y = 50;
 var bar_color = "blue";
