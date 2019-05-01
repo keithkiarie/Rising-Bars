@@ -13,10 +13,23 @@ change_bar_color = () => {
 //listen for keyboard input
 window.addEventListener('keydown', function (e) {
     ball.key = e.keyCode;
-})
+});
 window.addEventListener('keyup', function (e) {
     ball.key = false;
-})
+});
+
+//listen for touch input
+gamecanvas.addEventListener('touchstart', function (e) {
+    if (event.touches[0].clientX < gamecanvas.width/2) {
+        ball.key = 37;
+    } else if (event.touches[0].clientX > gamecanvas.width/2) {
+        ball.key = 39;
+    }
+});
+gamecanvas.addEventListener('touchend', function (e) {
+    ball.key = false;
+});
+
 
 //return a random horizontal position of bars
 random_x = () => {
@@ -76,7 +89,6 @@ startgame = () => {
                         }
                     } else {
                         bar_objects[i].sequence();
-                        console.log(ball);
                     }
                 }
 
