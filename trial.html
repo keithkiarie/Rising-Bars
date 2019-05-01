@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rising Bars</title>
+</head>
+
+<body>
+    <canvas id="gamecanvas" width="500" height="500" style="border:1px solid #000000;">
+    </canvas>
+</body>
+<script>
+    var gamecanvas = document.getElementById("gamecanvas");
+    var game_session = false;
+
+    var rising_rate = 2;
+    var gravity = 1;
+
+    var bar_width = 70;
+    var bar_height = 10;
+
+    var bar_interval = 1500;
+    var bars_number = 6;
+    var bar_objects = [];
+    var ball_radius = 5;
+    var ball_swerve = 2;
+
+    var minimum_y_distance = 10;
+    var delay_period = 500;
+
+    //listen for keyboard input
+    window.addEventListener('keydown', function (e) {
+        ball.key = e.keyCode;
+    })
+    window.addEventListener('keyup', function (e) {
+        ball.key = false;
+    })
+
+    //return a random horizontal position of bars
+    random_x = () => {
+        let x = Math.random() * gamecanvas.width;
+        if (x >= gamecanvas.width - bar_width) {
+            x -= bar_width;
+        }
+        return x;
+    }
+
+    //bar prototype
+    function Bar(initial_x, initial_y, initial_width, initial_height, index) {
+        this.id = index;
+        this.ctx = gamecanvas.getContext("2d");
+        this.width = initial_width;
+        this.height = initial_height;
+
+        this.x = initial_x;
+        this.y = initial_y;
+
+        this.clear = () => {
+                if (game_session) {
+                    this.ctx.clearRect(this.x - 10, this.y, this.width + 25, this.height + 2);
+                    this.raise();
+                } else if (this.id == 0) {
+                    alert("game over");
+                }
+            },
+            this.raise = () => {
+                if (this.y > 0) {
+                    this.y -= rising_rate;
+                } else {
+                    this.y = gamecanvas.height;
+                    this.x = random_x();
+                }
+                this.draw();
+            },
+            this.draw = () => {
+                this.ctx.fillStyle = "red";
+                this.ctx.fillRect(this.x, this.y, this.width, this.height);
+
+                setTimeout(() => {
+                    this.clear();
+                }, 10);
+                if (this.id == 0) {
+                    ball.erase();
+                }
+            }
+    }
+
+    //ball object
+    ball = {
+        x: gamecanvas.width / 2,
+        y: 50,
+        radius: ball_radius,
+        contact: false,
+        key: false,
+        ctx: gamecanvas.getContext("2d"),
+        draw() {
+            check_contact();
+            this.ctx.beginPath();
+            this.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+            this.ctx.fillStyle = "black";
+            this.ctx.stroke();
+        },
+        erase() {
+            this.ctx.clearRect(this.x - 1.5 * this.radius, this.y - 2 * this.radius, 3.5 * this.radius, 2.5 * this
+                .radius);
+            this.draw();
+        }
+    }
+
+    check_contact = () => {
+        //Contact with a bar
+        for (let i = 0; i < bar_objects.length; i++) {
+            if (bar_objects[i].y - ball.y <= 3 && bar_objects[i].y - ball.y > 0 && ball.x >= bar_objects[i].x &&
+                ball.x <= bar_objects[i].x +
+                bar_objects[i].width) {
+                ball.y -= rising_rate;
+                ball.contact = true;
+                break;
+
+            } else {
+                if (i == bar_objects.length - 1) {
+                    ball.y += gravity;
+                    ball.contact = false;
+                }
+            }
+        }
+
+        //Horizontal movement of the ball
+        if (ball.key && ball.key == 37) {
+            ball.x -= ball_swerve;
+        }
+        if (ball.key && ball.key == 39) {
+            ball.x += ball_swerve;
+        }
+
+        //Check if ball is within the screen
+        if (ball.x > gamecanvas.width || ball.x < 0 || ball.y < 0 || ball.y > gamecanvas.height) {
+            game_session = false;
+        }
+    }
+
+    startgame = () => {
+        game_session = true;
+
+        var i = 0;
+        bar_production = setInterval(function () {
+            bar_objects[i] = new Bar(random_x(), gamecanvas.height, bar_width, bar_height, i);
+            bar_objects[i].draw();
+            i++;
+            if (i == bars_number) {
+                clearInterval(bar_production);
+            }
+        }, bar_interval);
+
+    }
+
+    startgame();
+</script>
+
+</html>
