@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Rising Bars</title>
+
+    <style>
+        /* Chrome, Safari and Opera syntax */
+        :-webkit-full-screen {
+            background-color: white;
+        }
+
+        /* Firefox syntax */
+        :-moz-full-screen {
+            background-color: white;
+        }
+
+        /* IE/Edge syntax */
+        :-ms-fullscreen {
+            background-color: white;
+        }
+
+        /* Standard syntax */
+        :fullscreen {
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="displayarea">
+        <div id="menu">
+            <h2>Rising Bars</h2>
+            <br><br><br>
+
+            <button class="btn" id="menu_start_btn" onclick="start_from_menu()">Start</button>
+            <button class="btn" style="display:none">Scores</button>
+            <button class="btn" onclick="open_settings()">Settings</button>
+            <button class="btn" onclick="open_help()">Help</button>
+        </div>
+
+        <div id="game_display" style="display: none">
+            <canvas id="gamecanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
+            <br><br>
+            <button id="toggle_game_button" onclick="controller()" class="btn">Start</button>
+            <button id="close_game" onclick="go_to_menu()" class="btn">Menu</button>
+            <br>
+            Level: <span id="level_display">0</span><br>
+            <br>
+            <span id="info_display"></span>
+            <br>
+        </div>
+
+        <div id="settings" style="display: none;">
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon" style="width:85%">Color of Bar</span>
+                <input type="color" style="width:150%" class="form-control" id="bar_color_picker"
+                    onchange="change_bar_color()">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon" style="width:85%">Color of Ball:</span>
+                <input type="color" style="width:150%" class="form-control" id="ball_color_picker"
+                    onchange="change_ball_color()">
+            </div>
+
+            <div class="input-group">
+                <span class="input-group-addon" style="width:85%">Background Color</span>
+                <input type="color" style="width:150%" class="form-control" id="background_color_picker"
+                    onchange="change_background_color()">
+            </div>
+
+            <br><br>
+
+            <button id="close_settings" class="btn" onclick="go_to_menu()">Back</button>
+        </div>
+
+        <div id="help" style="display: none;">
+            <br>
+            <p>The goal is to keep the ball within the game canvas as long as possible. The game level changes during
+                gameplay and the speed of the bars increases with every level.</p>
+            <h3>On mobile devices:</h3>
+            <p>Long press either side of the game canvas to move the ball left or right accordingly</p>
+            <h3>On personal computers:</h3>
+            <p>Using the left or right arrow keys to move the ball to the left or right. Use escape button to pause.</p>
+            <br>
+            <button id="close_help" class="btn" onclick="go_to_menu()">Back</button>
+        </div>
+    </div>
+
+</body>
+<script>
+    var gamecanvas = document.getElementById("gamecanvas");
+    var displayarea = document.getElementById("displayarea");
+    var info_display = document.getElementById("info_display");
+    var level_display = document.getElementById("level_display");
+    var ctx = gamecanvas.getContext("2d");
+    var toggle_game_button = document.getElementById("toggle_game_button");
+    var game_session = false; // true if the game is being played (bars and ball are moving)
+    var bar_objects = []; //container for all the bar
+
+    // dimensions of the canvas
+    if (window.innerHeight > window.innerWidth) {
+        gamecanvas.width = window.innerWidth;
+        gamecanvas.height = window.innerHeight * 0.8;
+    } else {
+        gamecanvas.width = window.innerWidth * 0.5;
+        gamecanvas.height = window.innerHeight * 0.8;
+    }
+</script>
+<script src="controls.js"></script>
+<script src="main.js"></script>
+<script src="ui.js"></script>
+<script src="bar&ball.js"></script>
+
+</html>

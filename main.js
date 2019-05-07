@@ -1,16 +1,13 @@
-var gamecanvas = document.getElementById("gamecanvas");
-var displayarea = document.getElementById("displayarea");
-var info_display = document.getElementById("info_display");
-var level_display = document.getElementById("level_display");
-var ctx = gamecanvas.getContext("2d");
-var toggle_game_button = document.getElementById("toggle_game_button");
-var game_session = false; // true if the game is being played (bars and ball are moving)
-var rising_rate = initial_rising_rate; // the speed with which the bars rise, but increases during the game, integer
-var bar_objects = []; //container for all the bar
-
-
 change_bar_color = () => {
     bar_color = document.getElementById("bar_color_picker").value;
+}
+
+change_ball_color = () => {
+    ball_color = document.getElementById("ball_color_picker").value;
+}
+
+change_background_color = () => {
+    background_color = document.getElementById("background_color_picker").value;
 }
 
 //listen for keyboard input
@@ -47,6 +44,10 @@ random_x = () => {
 clear_canvas = () => {
     ctx.clearRect(-ball_radius, -ball_radius, gamecanvas.width + 2 * ball_radius, gamecanvas.height + 2 *
         ball_radius);
+    ctx.rect(-ball_radius, -ball_radius, gamecanvas.width + 2 * ball_radius, gamecanvas.height + 2 *
+        ball_radius);
+    ctx.fillStyle = background_color;
+    ctx.fill();
 }
 
 bars_initialization = () => {

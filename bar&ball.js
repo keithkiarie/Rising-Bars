@@ -49,8 +49,9 @@ ball = {
     draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-        ctx.fillStyle = ball_color;
         ctx.stroke();
+        ctx.fillStyle = ball_color;
+        ctx.fill();
     },
 }
 
