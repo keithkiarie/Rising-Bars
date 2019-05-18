@@ -28,6 +28,16 @@ open_settings = () => {
     document.getElementById("help").style.display = "none";
 
     document.getElementById("settings").style.display = "block";
+    try {
+        var controls = JSON.parse(localStorage.controls);
+        if (controls.mobile == "longpress") {
+            document.getElementById("longpress").click();
+        } else {
+            document.getElementById("swipecontrol").click();
+        }
+    } catch (error) {
+        
+    }
 }
 
 open_help = () => {

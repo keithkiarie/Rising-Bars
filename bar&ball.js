@@ -86,7 +86,7 @@ check_contact = () => {
     }
 
     //Check if ball is within the screen
-    if (ball.x > gamecanvas.width || ball.x < 0 || ball.y < 0 || ball.y > bars_initial_y) {
+    if (ball.x > gamecanvas.width - ball.radius || ball.x < ball.radius || ball.y < ball.radius || ball.y > bars_initial_y) {
         game_session = false;
     }
 }

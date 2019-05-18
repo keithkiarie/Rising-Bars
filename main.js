@@ -10,23 +10,12 @@ change_background_color = () => {
     background_color = document.getElementById("background_color_picker").value;
 }
 
+
 //listen for keyboard input
 window.addEventListener('keydown', function (e) {
     ball.key = e.keyCode;
 });
 window.addEventListener('keyup', function (e) {
-    ball.key = false;
-});
-
-//listen for touch input
-gamecanvas.addEventListener('touchstart', function (e) {
-    if (event.touches[0].clientX < gamecanvas.width / 2) {
-        ball.key = 37;
-    } else if (event.touches[0].clientX > gamecanvas.width / 2) {
-        ball.key = 39;
-    }
-});
-gamecanvas.addEventListener('touchend', function (e) {
     ball.key = false;
 });
 
@@ -70,54 +59,51 @@ bars_initialization = () => {
 
 startgame = () => {
     game_session = true;
-
-    //increases rising rate per level
-    level_timer = setInterval(function () {
-        if (toggle_game_button.innerHTML == "Pause") {
-            rising_rate += rising_rate_increase;
-            level_display.innerHTML = parseInt(level_display.innerHTML) + 1;
-        }
-    }, period_per_level);
+    all_bars_started = false;
+    refreshes = 0;
 
     //initial interval for calling the sequence of actions on ball and bars until all bars appear on the screen
-    inital_bar_movement = setInterval(function () {
-        if (game_session) {
+    bar_movement = () => {
+        gamecanvas.focus();
+        clear_canvas();
 
-            //if the vertical position of the last bar has not changed
+        if (all_bars_started) {
+            for (let i = 0; i < bar_objects.length; i++) {
+                bar_objects[i].sequence();
+            }
+        } else {
+            //if the last bar has not yet started rising
             if (bar_objects[bar_objects.length - 1].y == bars_initial_y) {
-                clear_canvas();
                 for (let i = 0; i < bar_objects.length; i++) {
+                    //all bars will start rising only if their predecessor has risen to a certain height except the first
                     if (i != 0) {
                         if (bar_objects[i].y - bar_objects[i - 1].y > minimum_y_distance()) {
                             bar_objects[i].sequence();
                         }
                     } else {
-                        bar_objects[i].sequence();
+                        bar_objects[0].sequence();
                     }
                 }
-
             } else {
-                //interval for calling the sequence of actions on ball and bars past the initialization
-                bar_movement = setInterval(function () {
-                    if (game_session) {
-                        clear_canvas();
-                        for (let i = 0; i < bar_objects.length; i++) {
-                            bar_objects[i].sequence();
-                        }
-                    } else {
-                        clearInterval(bar_movement);
-                        status_checker();
-                    }
-                }, refresh_interval);
-                clearInterval(inital_bar_movement);
+                all_bars_started = true;
             }
+        }
 
+        //changes game level after a certain number of refreshes, increases rising rate per level
+        refreshes += 1;
+        if (toggle_game_button.innerHTML == "Pause" && refreshes % 600 == 0) {
+            rising_rate += rising_rate_increase;
+            level_display.innerHTML = parseInt(level_display.innerHTML) + 1;
+        }
+
+        if (game_session) {
+            requestAnimationFrame(bar_movement);
         } else {
-            clearInterval(inital_bar_movement);
             status_checker();
         }
-    }, refresh_interval);
+    }
 
+    requestAnimationFrame(bar_movement);
 }
 
 controller = () => {
@@ -140,7 +126,6 @@ status_checker = () => {
     if (toggle_game_button.innerHTML == "Pause") {
         info_display.innerHTML = "Game Over!";
         toggle_game_button.innerHTML = "Start";
-        clearInterval(level_timer);
     }
     if (toggle_game_button.innerHTML == "Resume") {
 
