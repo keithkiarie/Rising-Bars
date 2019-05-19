@@ -9,6 +9,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>Rising Bars</title>
+    <link rel="icon" 
+      type="image/png/ico" 
+      href="icon.png">
 
     <style>
         .noselect {
@@ -101,18 +104,20 @@
                         <div class="panel-body">
                             <h3>Ball Movement:</h3>
 
-                            <div style="display:none;">
+                            <div>
+                                <input type="radio" name="controlmethod" id="longpress"
+                                    onclick="control_method('longpress')" value="longpress"> <span
+                                    onclick="{document.getElementById('longpress').click()}">Long press the left or
+                                    right
+                                    side of the screen to move the ball.</span>
+                            </div><br>
+
+                            <div>
                                 <input type="radio" name="controlmethod" id="swipecontrol"
                                     onclick="control_method('swipe')" value="swipe"> <span
                                     onclick="{document.getElementById('swipecontrol').click()}">Swipe
                                     to the left or to the right to move ball.</span>
                             </div>
-
-                            <br>
-                            <input type="radio" name="controlmethod" id="longpress"
-                                onclick="control_method('longpress')" value="longpress" checked> <span
-                                onclick="{document.getElementById('longpress').click()}">Long press the left or right
-                                side of the screen to move the ball.</span>
 
                         </div>
                     </div>
@@ -191,17 +196,17 @@
                         <h4>On mobile devices:</h4>
                         <h5>Default control method:</h5>
 
-                        <div style="display:none">
+                        <div>
+                            <input type="radio" name="controlmethod" id="default_longpress"
+                                onclick="control_method('longpress')" value="longpress"> Long press the left or right side of the screen to move the ball.
+                        </div>
+
+                        <div>
                             <input type="radio" name="controlmethod" id="default_swiping"
                                 onclick="control_method('swipe')" value="swipe"> Swipe left or right to move the ball
                             <br>
                         </div>
 
-
-                        <input type="radio" name="controlmethod" id="default_longpress"
-                            onclick="control_method('longpress')" value="longpress" checked> Long press the left or
-                        right side
-                        of the screen to move the ball.
                     </div>
 
                     <div>
@@ -296,7 +301,6 @@
         gamecanvas.removeEventListener('touchend', longpress_touchend);
 
         //listen for swipe input
-        var former_swiped_area;
         gamecanvas.addEventListener('touchstart', swipe_touchstart);
         gamecanvas.addEventListener('touchmove', swipe_touchmove);
         gamecanvas.addEventListener('touchend', swipe_touchend);
@@ -316,6 +320,7 @@
         ball.key = false;
     }
 
+    var former_swiped_area;
     //touchstart for swiping
     function swipe_touchstart(e) {
         former_swiped_area = e.touches[0].clientX;
@@ -323,9 +328,9 @@
 
     //touchmove for swiping
     function swipe_touchmove(e) {
-        if (event.touches[0].clientX < former_swiped_area) {
+        if (event.touches[0].clientX < former_swiped_area - 1) {
             ball.key = 37;
-        } else if (event.touches[0].clientX > former_swiped_area) {
+        } else if (event.touches[0].clientX > former_swiped_area + 1) {
             ball.key = 39;
         }
         former_swiped_area = event.touches[0].clientX;
