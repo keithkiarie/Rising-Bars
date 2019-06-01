@@ -5,13 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>Rising Bars</title>
-    <link rel="icon" 
-      type="image/png/ico" 
-      href="icon.png">
+    <link rel="icon" type="image/png/ico" href="icon.png">
 
     <style>
         .noselect {
@@ -63,12 +62,15 @@
     <div id="displayarea">
         <div id="menu" style="padding-left: 0.5%;">
             <h2>Rising Bars</h2>
-            <br><br><br>
+            <br><br><br><br><br><br>
 
-            <button class="btn" id="menu_start_btn" onclick="start_from_menu()">Start</button>
-            <button class="btn" style="display:none">Scores</button>
-            <button class="btn" onclick="open_settings()">Settings</button>
-            <button class="btn" onclick="open_help()">Help</button>
+            <div align="center">
+                <a class="btn" id="menu_start_btn" onclick="start_from_menu()" style="font-size:200%; color:#A9A9A9"><b>Start</b></a><br><br>
+                <a class="btn" style="display:none" style="font-size:200%; color: #A9A9A9"><b>Scores</b></a>
+                <a class="btn" onclick="open_settings()" style="font-size:200%; color: #A9A9A9"><b>Settings</b></a><br><br>
+                <a class="btn" onclick="open_help()" style="font-size:200%; color: #A9A9A9"><b>Help</b></a><br><br>
+            </div>
+
         </div>
 
         <div id="game_display" style="display: none;">
@@ -198,7 +200,8 @@
 
                         <div>
                             <input type="radio" name="controlmethod" id="default_longpress"
-                                onclick="control_method('longpress')" value="longpress"> Long press the left or right side of the screen to move the ball.
+                                onclick="control_method('longpress')" value="longpress"> Long press the left or right
+                            side of the screen to move the ball.
                         </div>
 
                         <div>
@@ -226,6 +229,15 @@
 
 </body>
 <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker
+                .register('sw_cached_pages.js')
+                .then(reg => console.log('Service Worker: Registered'))
+                .catch(err => console.log(`Service Worker: Error: ${err}`));
+        });
+    }
+
     var gamecanvas = document.getElementById("gamecanvas");
     var displayarea = document.getElementById("displayarea");
     var info_display = document.getElementById("info_display");

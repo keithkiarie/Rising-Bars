@@ -1,0 +1,16 @@
+{
+    "lang": "en",
+    "background-color": "ffffff",
+    "name": "Rising Bars",
+    "start_url": ".",
+    "description": "Arcade Game",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "icon.png",
+            "sizes": "503x676",
+            "type": "image/png"
+        }
+    ],
+    "orientation": "portrait"
+}
