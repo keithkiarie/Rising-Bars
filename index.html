@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta name="Rising Bars" content="Arcade Game. Dropping ball and rising bars. Move the ball to keep it within the screen.">
+    <meta name="Rising Bars"
+        content="Arcade Game. Dropping ball and rising bars. Move the ball to keep it within the screen.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -35,27 +36,33 @@
         body {
             margin: 0;
             height: 100%;
-            overflow: hidden
+            overflow: hidden;
+            background: #000000;
+            color: #A9A9A9;
         }
 
         /* Chrome, Safari and Opera syntax */
         :-webkit-full-screen {
-            background-color: white;
+            background-color: #000000;
         }
 
         /* Firefox syntax */
         :-moz-full-screen {
-            background-color: white;
+            background-color: #000000;
         }
 
         /* IE/Edge syntax */
         :-ms-fullscreen {
-            background-color: white;
+            background-color: #000000;
         }
 
         /* Standard syntax */
         :fullscreen {
-            background-color: white;
+            background-color: #000000;
+        }
+
+        button {
+            color: #A9A9A9;
         }
     </style>
 </head>
@@ -78,7 +85,7 @@
         </div>
 
         <div id="game_display" style="display: none;">
-            <canvas id="gamecanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
+            <canvas id="gamecanvas" width="500" height="500" style="border:5px solid white;"></canvas>
             <br><br><br>
 
             <button id="toggle_game_button" onclick="controller()" class="btn noselect" unselectable="on"
@@ -94,7 +101,7 @@
             <br>
         </div>
 
-        <div id="settings" style="display: none; padding-left: 0.5%;">
+        <div id="settings" style="display: none; padding-left: 0.5%; color: black;">
             <h2>Settings</h2>
             <div class="panel-group" id="accordion">
                 <!--Controls Settings-->
@@ -253,7 +260,7 @@
 
     // dimensions of the canvas
     if (window.innerHeight > window.innerWidth) {
-        gamecanvas.width = window.innerWidth;
+        gamecanvas.width = window.innerWidth - 10;
         gamecanvas.height = window.innerHeight * 0.8;
     } else {
         gamecanvas.width = window.innerWidth * 0.5;
