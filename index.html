@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="Rising Bars" content="Arcade Game. Dropping ball and rising bars. Move the ball to keep it within the screen.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -66,9 +67,11 @@
             <br><br><br><br><br><br>
 
             <div align="center">
-                <a class="btn" id="menu_start_btn" onclick="start_from_menu()" style="font-size:200%; color:#A9A9A9"><b>Start</b></a><br><br>
+                <a class="btn" id="menu_start_btn" onclick="start_from_menu()"
+                    style="font-size:200%; color:#A9A9A9"><b>Start</b></a><br><br>
                 <a class="btn" style="display:none" style="font-size:200%; color: #A9A9A9"><b>Scores</b></a>
-                <a class="btn" onclick="open_settings()" style="font-size:200%; color: #A9A9A9"><b>Settings</b></a><br><br>
+                <a class="btn" onclick="open_settings()"
+                    style="font-size:200%; color: #A9A9A9"><b>Settings</b></a><br><br>
                 <a class="btn" onclick="open_help()" style="font-size:200%; color: #A9A9A9"><b>Help</b></a><br><br>
             </div>
 
@@ -255,6 +258,7 @@
     } else {
         gamecanvas.width = window.innerWidth * 0.5;
         gamecanvas.height = window.innerHeight * 0.8;
+        document.getElementById("game_display").setAttribute("align", "center");
     }
 
     // check if it is a first time user
